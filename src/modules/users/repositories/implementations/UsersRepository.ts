@@ -26,7 +26,7 @@ export class UsersRepository implements IUsersRepository {
     return this.repository.query(`
       SELECT *
       FROM users
-      ORDER BY first_name ASC;
+      ORDER BY first_name ASC
     `);
   }
 
@@ -34,6 +34,11 @@ export class UsersRepository implements IUsersRepository {
     first_name,
     last_name,
   }: IFindUserByFullNameDTO): Promise<User[] | undefined> {
-    return this.repository.query(``); // Complete usando raw query
+    return this.repository.query(`
+      SELECT *
+      FROM users
+      WHERE first_name ilike '${first_name}' AND last_name ilike '${last_name}'
+      LIMIT 5;
+    `); // Complete usando raw query
   }
 }
